@@ -1,31 +1,40 @@
 """
-Algesnake: Abstract Algebra for Python
+Algesnake - Abstract algebra for Python data pipelines.
 
-Algebra that slithers through your data pipelines! 🐍
-
-A Python library providing abstract algebra abstractions (Monoids, Groups, Rings, Semirings)
+Algesnake provides algebraic abstractions (Monoids, Groups, Rings, Semirings)
 for building aggregation systems, analytics pipelines, and approximation algorithms.
-
-Example:
-    >>> from algesnake import Max, Min
-    >>> result = Max(5) + Max(3) + Max(1)
-    >>> print(result)  # Max(5)
 """
 
-__version__ = "0.1.0"
+# Phase 1: Abstract base classes
+try:
+    from .abstract import Semigroup, Monoid, Group, Ring, Semiring
+except ImportError:
+    # Abstract classes not yet implemented
+    pass
 
-# Import abstract base classes
-from algesnake.abstract.semigroup import Semigroup
-from algesnake.abstract.monoid import Monoid
-from algesnake.abstract.group import Group
-from algesnake.abstract.ring import Ring
-from algesnake.abstract.semiring import Semiring
+# Phase 2: Concrete monoid implementations
+from .monoid import (
+    # Numeric monoids
+    Add, Multiply, Max, Min,
+    # Collection monoids
+    SetMonoid, ListMonoid, MapMonoid, StringMonoid,
+    # Option monoid
+    Some, None_, Option, OptionMonoid,
+)
+
+__version__ = "0.2.0"
 
 __all__ = [
-    "Semigroup",
-    "Monoid",
-    "Group",
-    "Ring",
-    "Semiring",
-    "__version__",
+    # Numeric monoids
+    'Add', 'Multiply', 'Max', 'Min',
+    # Collection monoids
+    'SetMonoid', 'ListMonoid', 'MapMonoid', 'StringMonoid',
+    # Option monoid
+    'Some', 'None_', 'Option', 'OptionMonoid',
 ]
+
+# Add abstract classes if available
+try:
+    __all__.extend(['Semigroup', 'Monoid', 'Group', 'Ring', 'Semiring'])
+except NameError:
+    pass
