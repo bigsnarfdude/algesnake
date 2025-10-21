@@ -47,12 +47,6 @@ All structures implement **monoid interfaces** for distributed aggregation!
 # Clone the repository
 git clone https://github.com/bigsnarfdude/algesnake.git
 cd algesnake
-
-# Install in development mode
-pip install -e .
-
-# Install with development dependencies
-pip install -e ".[dev]"
 ```
 
 ## Quick Start
