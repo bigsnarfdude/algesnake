@@ -1,0 +1,120 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "algesnake"
+version = "0.1.0"
+description = "Algebra that slithers through your data pipelines - Abstract algebra for Python"
+readme = "README.md"
+requires-python = ">=3.8"
+license = {text = "Apache-2.0"}
+authors = [
+    {name = "Vincent", email = "vincent@example.com"}
+]
+keywords = [
+    "algebra",
+    "monoid",
+    "aggregation",
+    "distributed-computing",
+    "approximation-algorithms",
+    "hyperloglog",
+    "count-min-sketch",
+    "bloom-filter"
+]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: Apache Software License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: Scientific/Engineering :: Mathematics"
+]
+
+dependencies = [
+    "typing-extensions>=4.0.0; python_version<'3.10'"
+]
+
+[project.optional-dependencies]
+numpy = ["numpy>=1.20.0"]
+spark = ["pyspark>=3.0.0"]
+dask = ["dask>=2021.0.0", "distributed>=2021.0.0"]
+dev = [
+    "pytest>=7.0.0",
+    "pytest-cov>=3.0.0",
+    "hypothesis>=6.0.0",
+    "mypy>=1.0.0",
+    "black>=22.0.0",
+    "ruff>=0.1.0",
+    "ipython>=8.0.0",
+    "jupyter>=1.0.0"
+]
+all = [
+    "numpy>=1.20.0",
+    "pyspark>=3.0.0",
+    "dask>=2021.0.0",
+    "distributed>=2021.0.0"
+]
+
+[project.urls]
+Homepage = "https://github.com/yourusername/algesnake"
+Documentation = "https://algesnake.readthedocs.io"
+Repository = "https://github.com/yourusername/algesnake"
+Issues = "https://github.com/yourusername/algesnake/issues"
+
+[tool.setuptools.packages.find]
+include = ["algesnake*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+addopts = [
+    "--cov=algesnake",
+    "--cov-report=html",
+    "--cov-report=term-missing",
+    "--verbose"
+]
+
+[tool.mypy]
+python_version = "3.8"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
+disallow_incomplete_defs = true
+check_untyped_defs = true
+no_implicit_optional = true
+warn_redundant_casts = true
+warn_unused_ignores = true
+warn_no_return = true
+strict_equality = true
+
+[tool.black]
+line-length = 100
+target-version = ['py38', 'py39', 'py310', 'py311', 'py312']
+include = '\.pyi?$'
+
+[tool.ruff]
+line-length = 100
+target-version = "py38"
+select = [
+    "E",   # pycodestyle errors
+    "W",   # pycodestyle warnings
+    "F",   # pyflakes
+    "I",   # isort
+    "B",   # flake8-bugbear
+    "C4",  # flake8-comprehensions
+    "UP",  # pyupgrade
+]
+ignore = [
+    "E501",  # line too long (handled by black)
+]
+
+[tool.ruff.isort]
+known-first-party = ["algesnake"]
