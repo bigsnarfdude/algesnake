@@ -4,13 +4,13 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "algesnake"
-version = "0.1.0"
+version = "0.5.0"
 description = "Algebra that slithers through your data pipelines - Abstract algebra for Python"
 readme = "README.md"
 requires-python = ">=3.8"
 license = {text = "Apache-2.0"}
 authors = [
-    {name = "Vincent", email = "vincent@example.com"}
+    {name = "Vincent", email = "noreply@github.com"}
 ]
 keywords = [
     "algebra",
@@ -20,10 +20,13 @@ keywords = [
     "approximation-algorithms",
     "hyperloglog",
     "count-min-sketch",
-    "bloom-filter"
+    "bloom-filter",
+    "tdigest",
+    "topk",
+    "probabilistic-data-structures"
 ]
 classifiers = [
-    "Development Status :: 3 - Alpha",
+    "Development Status :: 4 - Beta",
     "Intended Audience :: Developers",
     "License :: OSI Approved :: Apache Software License",
     "Programming Language :: Python :: 3",
@@ -62,10 +65,9 @@ all = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/yourusername/algesnake"
-Documentation = "https://algesnake.readthedocs.io"
-Repository = "https://github.com/yourusername/algesnake"
-Issues = "https://github.com/yourusername/algesnake/issues"
+Homepage = "https://github.com/bigsnarfdude/algesnake"
+Repository = "https://github.com/bigsnarfdude/algesnake"
+Issues = "https://github.com/bigsnarfdude/algesnake/issues"
 
 [tool.setuptools.packages.find]
 include = ["algesnake*"]
