@@ -41,11 +41,6 @@ All structures implement **monoid interfaces** for distributed aggregation!
 - **TopK**: Heavy hitter detection (O(k) space)
 - **T-Digest**: Percentile estimation (0.1-1% error for p99)
 
-### 🚧 Planned Phase 4
-- Distributed integration: PySpark and Dask support
-- Performance: Cython optimizations for hot paths
-- Additional structures: MinHash, SimHash, QTree
-
 ## Installation
 
 ```bash
