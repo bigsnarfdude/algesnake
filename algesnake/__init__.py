@@ -28,9 +28,10 @@ from .approximate import (
     BloomFilter,
     CountMinSketch,
     TopK,
+    TDigest,
 )
 
-__version__ = "0.4.0"
+__version__ = "0.5.0"
 
 __all__ = [
     # Numeric monoids
@@ -40,7 +41,7 @@ __all__ = [
     # Option monoid
     'Some', 'None_', 'Option', 'OptionMonoid',
     # Approximation algorithms
-    'HyperLogLog', 'BloomFilter', 'CountMinSketch', 'TopK',
+    'HyperLogLog', 'BloomFilter', 'CountMinSketch', 'TopK', 'TDigest',
 ]
 
 # Add abstract classes if available
