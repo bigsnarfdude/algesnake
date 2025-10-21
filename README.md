@@ -32,8 +32,8 @@ Algesnake makes it easy to build distributed aggregation systems by providing al
 
 ```bash
 # Clone the repository
-git clone https://github.com/yourusername/algesnake-python.git
-cd algesnake-python
+git clone https://github.com/bigsnarfdude/algesnake.git
+cd algesnake
 
 # Install in development mode
 pip install -e .
