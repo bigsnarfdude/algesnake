@@ -11,12 +11,12 @@ A Python library providing abstract algebra abstractions (Monoids, Groups, Rings
 
 ## What's New in 0.5.0
 
-✨ **Phase 3 Complete!** All 5 probabilistic data structures now available:
-- 🎯 **T-Digest**: High-accuracy quantile estimation (p50, p95, p99, p999)
-- 📊 **CountMinSketch**: Conservative frequency estimation
-- 🏆 **TopK**: Track top-K most frequent items
-- 🔢 **HyperLogLog**: Cardinality estimation with ~2% error
-- ✅ **Bloom Filter**: Membership testing with configurable false positives
+5 probabilistic data structures now available:
+- **T-Digest**: High-accuracy quantile estimation (p50, p95, p99, p999)
+- **CountMinSketch**: Conservative frequency estimation
+- **TopK**: Track top-K most frequent items
+- **HyperLogLog**: Cardinality estimation with ~2% error
+- **Bloom Filter**: Membership testing with configurable false positives
 
 All structures implement **monoid interfaces** for distributed aggregation!
 
