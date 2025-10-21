@@ -26,9 +26,11 @@ from .monoid import (
 from .approximate import (
     HyperLogLog,
     BloomFilter,
+    CountMinSketch,
+    TopK,
 )
 
-__version__ = "0.3.0"
+__version__ = "0.4.0"
 
 __all__ = [
     # Numeric monoids
@@ -38,7 +40,7 @@ __all__ = [
     # Option monoid
     'Some', 'None_', 'Option', 'OptionMonoid',
     # Approximation algorithms
-    'HyperLogLog', 'BloomFilter',
+    'HyperLogLog', 'BloomFilter', 'CountMinSketch', 'TopK',
 ]
 
 # Add abstract classes if available
