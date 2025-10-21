@@ -22,7 +22,13 @@ from .monoid import (
     Some, None_, Option, OptionMonoid,
 )
 
-__version__ = "0.2.0"
+# Phase 3: Approximation algorithms
+from .approximate import (
+    HyperLogLog,
+    BloomFilter,
+)
+
+__version__ = "0.3.0"
 
 __all__ = [
     # Numeric monoids
@@ -31,6 +37,8 @@ __all__ = [
     'SetMonoid', 'ListMonoid', 'MapMonoid', 'StringMonoid',
     # Option monoid
     'Some', 'None_', 'Option', 'OptionMonoid',
+    # Approximation algorithms
+    'HyperLogLog', 'BloomFilter',
 ]
 
 # Add abstract classes if available
