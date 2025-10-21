@@ -2,7 +2,7 @@
 
 > **Algebra that slithers through your data pipelines!**
 
-A Python library providing abstract algebra abstractions (Monoids, Groups, Rings, Semirings) for building aggregation systems, analytics pipelines, and approximation algorithms. Inspired by [Twitter's Algebird](https://github.com/twitter/algebird).
+A Python library providing abstract algebra abstractions (Monoids, Groups, Rings, Semirings, T-Digest) for building aggregation systems, analytics pipelines, and approximation algorithms. Inspired by [Twitter's Algebird](https://github.com/twitter/algebird).
 
 [![Tests](https://img.shields.io/badge/tests-406%20passing-brightgreen)]()
 [![Coverage](https://img.shields.io/badge/coverage-80%25-green)]()
