@@ -70,8 +70,8 @@ print(f"p999: {td.percentile(99.9):.1f}ms")
 - `tests/unit/test_tdigest.py` - 40 comprehensive tests
 
 ### Examples & Documentation
-- `examples/phase3_week5-6_tdigest_examples.py` - 10 real-world examples
-- `docs/phase3_week5-6.md` - This documentation
+- `examples/tdigest_examples.py` - 10 real-world examples
+- `docs/tdigest.md` - This documentation
 
 ## Test Results
 
@@ -466,7 +466,7 @@ print(f"Global p95: {merged.percentile(95):.2f}ms")
 
 ## Example Output from Examples File
 
-Running `python examples/phase3_week5-6_tdigest_examples.py`:
+Running `python examples/tdigest_examples.py`:
 
 ```
 ============================================================

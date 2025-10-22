@@ -92,8 +92,8 @@ for tag, count in topk.top(n=5):
 - `tests/unit/test_topk.py` - 32 comprehensive tests
 
 ### Examples & Documentation
-- `examples/phase3_week3-4_examples.py` - 12 real-world examples
-- `docs/phase3_week3-4.md` - This documentation
+- `examples/countmin_topk_examples.py` - 12 real-world examples
+- `docs/countmin-topk.md` - This documentation
 
 ## Test Results
 

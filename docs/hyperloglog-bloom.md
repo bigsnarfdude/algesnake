@@ -83,8 +83,8 @@ if "spam@example.com" in bf:
 - `tests/unit/test_bloom.py` - 32 comprehensive tests
 
 ### Examples & Documentation
-- `examples/phase3_approximation_examples.py` - 10 real-world examples
-- `docs/phase3_week1-2.md` - This documentation
+- `examples/hyperloglog_bloom_examples.py` - 10 real-world examples
+- `docs/hyperloglog-bloom.md` - This documentation
 
 ## Test Results
 

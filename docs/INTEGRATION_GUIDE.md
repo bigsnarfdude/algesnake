@@ -55,9 +55,9 @@ algesnake/
 │   │   ├── test_collection_monoid.py ← test_collection_monoids.py
 │   │   └── test_option_monoid.py   ← test_option_monoid.py
 ├── examples/
-│   └── phase2_examples.py  ← examples.py
+│   └── monoid_examples.py  ← examples.py
 └── docs/
-    └── phase2.md           ← PHASE2_README.md
+    └── monoids.md           ← PHASE2_README.md
 ```
 
 ### Integration Steps
@@ -127,8 +127,8 @@ algesnake/
 
 6. **Copy documentation**:
    ```bash
-   cp examples.py examples/phase2_examples.py
-   cp PHASE2_README.md docs/phase2.md
+   cp examples.py examples/monoid_examples.py
+   cp PHASE2_README.md docs/monoids.md
    ```
 
 7. **Update main README.md**:
@@ -206,8 +206,8 @@ All implementations are production-ready with:
 ## Support
 
 For questions or issues:
-1. See `docs/phase2.md` for detailed documentation
-2. Run `python examples/phase2_examples.py` for working examples
+1. See `docs/monoids.md` for detailed documentation
+2. Run `python examples/monoid_examples.py` for working examples
 3. Check test files for comprehensive usage patterns
 
 ---
