@@ -1,8 +1,8 @@
-# Phase 3 Week 3-4: CountMinSketch & TopK
+# CountMinSketch & TopK
 
 ## Overview
 
-This deliverable implements two medium-complexity probabilistic data structures for frequency estimation and heavy hitter detection:
+Probabilistic data structures for frequency estimation and heavy hitter detection:
 - **CountMinSketch (CMS)**: Frequency estimation with conservative guarantees (never underestimates)
 - **TopK**: Track the K most frequent items using min-heap + frequency map
 
