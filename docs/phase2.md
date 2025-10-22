@@ -16,7 +16,7 @@ All implementations follow monoid laws (associativity + identity) and provide na
 
 ### Add
 ```python
-from numeric_monoids import Add
+from algesnake import Add
 
 # Basic usage
 result = Add(5) + Add(3) + Add(7)  # Add(15)
@@ -30,7 +30,7 @@ Add.zero()  # Add(0)
 
 ### Multiply
 ```python
-from numeric_monoids import Multiply
+from algesnake import Multiply
 
 # Basic usage
 result = Multiply(2) * Multiply(3) * Multiply(4)  # Multiply(24)
@@ -41,7 +41,7 @@ Multiply.zero()  # Multiply(1)
 
 ### Max
 ```python
-from numeric_monoids import Max
+from algesnake import Max
 
 # Find maximum
 values = [Max(5), Max(2), Max(9), Max(1)]
@@ -53,7 +53,7 @@ Max.zero()  # Max(-inf)
 
 ### Min
 ```python
-from numeric_monoids import Min
+from algesnake import Min
 
 # Find minimum
 values = [Min(5), Min(2), Min(9), Min(1)]
@@ -67,7 +67,7 @@ Min.zero()  # Min(inf)
 
 ### SetMonoid
 ```python
-from collection_monoids import SetMonoid
+from algesnake import SetMonoid
 
 # Set union
 s1 = SetMonoid({1, 2, 3})
@@ -81,7 +81,7 @@ all_values = sum(sets)  # SetMonoid({1, 2, 3})
 
 ### ListMonoid
 ```python
-from collection_monoids import ListMonoid
+from algesnake import ListMonoid
 
 # List concatenation
 l1 = ListMonoid([1, 2, 3])
@@ -96,7 +96,7 @@ result = l3 + l4  # ListMonoid([1, 2, 2, 2, 3])
 
 ### MapMonoid
 ```python
-from collection_monoids import MapMonoid
+from algesnake import MapMonoid
 
 # Default: last value wins
 m1 = MapMonoid({'a': 1, 'b': 2})
@@ -116,7 +116,7 @@ result = m1 + m2  # MapMonoid({'a': 5, 'b': 7, 'c': 3})
 
 ### StringMonoid
 ```python
-from collection_monoids import StringMonoid
+from algesnake import StringMonoid
 
 # String concatenation
 words = [StringMonoid("Hello"), StringMonoid(" "), StringMonoid("World")]
@@ -129,7 +129,7 @@ The Option/Maybe monoid provides safe handling of optional values, similar to Sc
 
 ### Basic Usage
 ```python
-from option_monoid import Some, None_
+from algesnake import Some, None_
 
 # Create options
 x = Some(5)      # Contains a value
@@ -179,7 +179,7 @@ Some(5).filter(lambda x: x > 10)  # None_()
 
 ### Custom Value Combination
 ```python
-from option_monoid import OptionMonoid
+from algesnake import OptionMonoid
 
 # Combine values when both are Some
 m = OptionMonoid(lambda a, b: a + b)
@@ -219,7 +219,7 @@ aggregated = {
 
 ### Word Count (MapReduce)
 ```python
-from collection_monoids import MapMonoid
+from algesnake import MapMonoid
 
 def count_words(text):
     words = text.split()
@@ -238,7 +238,7 @@ total = doc1_counts + doc2_counts + doc3_counts
 
 ### Configuration with Fallback
 ```python
-from option_monoid import Some, None_
+from algesnake import Some, None_
 
 def get_env_config(key):
     # Check environment variables

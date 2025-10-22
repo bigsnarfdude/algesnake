@@ -4,12 +4,9 @@ Examples demonstrating Phase 2 Monoids for Algesnake.
 This module shows practical usage of all the concrete monoid implementations.
 """
 
-from numeric_monoids import Add, Multiply, Max, Min, add, multiply, max_of, min_of
-from collection_monoids import (
-    SetMonoid, ListMonoid, MapMonoid, StringMonoid,
-    set_union, concat_lists, merge_maps, concat_strings
-)
-from option_monoid import Some, None_, OptionMonoid, option_or_else, sequence_options
+from algesnake import Add, Multiply, Max, Min
+from algesnake import SetMonoid, ListMonoid, MapMonoid, StringMonoid
+from algesnake import Some, None_, OptionMonoid
 
 
 def numeric_examples():
