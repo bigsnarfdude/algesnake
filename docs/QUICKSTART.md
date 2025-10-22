@@ -1,4 +1,4 @@
-# Phase 2 Monoids - Quick Start Guide
+# Algesnake - Quick Start Guide
 
 ## Installation (After Integration)
 
@@ -236,10 +236,10 @@ metrics = sum([
 
 ## What's Next?
 
-- See `PHASE2_README.md` for complete documentation
-- Run `python examples.py` for more examples
+- See the docs directory for complete documentation
+- Run `python examples/` for more examples
 - Check test files for comprehensive usage patterns
-- Ready for Phase 3: HyperLogLog, CountMinSketch, Bloom Filter!
+- Explore probabilistic data structures: HyperLogLog, CountMinSketch, Bloom Filter, TopK, and T-Digest!
 
 ## Questions?
 

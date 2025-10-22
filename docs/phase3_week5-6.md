@@ -1,8 +1,8 @@
-# Phase 3 Week 5-6: T-Digest
+# T-Digest
 
 ## Overview
 
-This deliverable implements T-Digest, a sophisticated probabilistic data structure for quantile and percentile estimation in streaming data:
+T-Digest is a sophisticated probabilistic data structure for quantile and percentile estimation in streaming data:
 - **T-Digest**: High-accuracy quantile estimation using clustered centroids
 - Especially accurate at distribution tails (p99, p999)
 - Implements monoid interface for distributed aggregation

@@ -1,8 +1,8 @@
-# Phase 3 Week 1-2: HyperLogLog & Bloom Filter
+# HyperLogLog & Bloom Filter
 
 ## Overview
 
-This deliverable implements the two foundational probabilistic data structures for Phase 3:
+Foundational probabilistic data structures for efficient set operations:
 - **HyperLogLog**: Cardinality estimation with ~2% error using minimal memory
 - **Bloom Filter**: Probabilistic set membership testing with configurable false positive rates
 
