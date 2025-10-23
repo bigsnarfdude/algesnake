@@ -1,4 +1,4 @@
-"""Phase 3: Approximation Algorithms - Examples
+"""Approximation Algorithms - Examples
 
 This file demonstrates HyperLogLog and Bloom Filter usage for:
 - Counting unique elements with minimal memory
