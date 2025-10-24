@@ -9,9 +9,18 @@ A Python library providing abstract algebra abstractions (Monoids, Groups, Rings
 [![Python](https://img.shields.io/badge/python-3.8%2B-blue)]()
 [![Version](https://img.shields.io/badge/version-0.5.0-blue)]()
 
-## What's New in 0.5.0
+## What's New in 0.6.0
 
-5 probabilistic data structures now available:
+**NEW: Similarity Search & LSH Indexing!** 🚀
+
+- **MinHash**: Jaccard similarity estimation for set comparison
+- **Weighted MinHash**: Weighted Jaccard for TF-IDF and frequency-based similarity
+- **MinHash LSH**: Fast similarity search with sub-linear query time
+- **LSH Forest**: Top-K nearest neighbor queries without fixed thresholds
+- **LSH Ensemble**: Optimized containment queries for subset/superset search
+- **HNSW**: Approximate nearest neighbor search with logarithmic complexity
+
+Previous features (0.5.0):
 - **T-Digest**: High-accuracy quantile estimation (p50, p95, p99, p999)
 - **CountMinSketch**: Conservative frequency estimation
 - **TopK**: Track top-K most frequent items
@@ -40,6 +49,14 @@ All structures implement **monoid interfaces** for distributed aggregation!
 - **CountMinSketch**: Frequency estimation (never underestimates)
 - **TopK**: Heavy hitter detection (O(k) space)
 - **T-Digest**: Percentile estimation (0.1-1% error for p99)
+
+### Similarity Search & Indexing
+- **MinHash**: Jaccard similarity estimation (O(k) space, ~1/√k error)
+- **Weighted MinHash**: Weighted Jaccard for frequency-based similarity
+- **MinHash LSH**: Sub-linear similarity search (O(n^ρ) where ρ < 1)
+- **LSH Forest**: Top-K queries with adaptive thresholds
+- **LSH Ensemble**: Size-aware containment search (subset/superset queries)
+- **HNSW**: Approximate nearest neighbor (O(log n) query time)
 
 ## Installation
 
@@ -643,14 +660,16 @@ algesnake/
 - **Abstract algebra foundation**: Semigroup, Monoid, Group, Ring, Semiring (106 tests)
 - **Concrete monoids**: Numeric, Collection, and Option types (193 tests)
 - **Probabilistic data structures**: HyperLogLog, Bloom Filter, CountMinSketch, TopK, T-Digest (168 tests)
+- **Similarity search & indexing**: MinHash, Weighted MinHash, LSH, LSH Forest, LSH Ensemble, HNSW (250+ tests)
 - **Operator overloading**: Pythonic `+` and `sum()` support
-- **Comprehensive testing**: 406 tests with 80%+ coverage
+- **Comprehensive testing**: 650+ tests with 80%+ coverage
 
 ### 🚧 Upcoming Features
+- **HyperLogLog++**: Google's improved HLL with sparse representation
 - **Distributed computing**: PySpark and Dask integration
-- **Additional structures**: MinHash, SimHash, QTree
-- **Performance**: Cython optimizations
-- **Serialization**: Save/load support for all structures
+- **Additional structures**: SimHash, QTree
+- **Performance**: Cython optimizations for hot paths
+- **Serialization**: Complete save/load support for all structures
 
 ## Why Algesnake?
 
