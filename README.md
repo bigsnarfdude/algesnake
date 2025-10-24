@@ -13,21 +13,24 @@ A Python library providing abstract algebra abstractions (Monoids, Groups, Rings
 
 **NEW: Similarity Search & LSH Indexing!** 🚀
 
-- **MinHash**: Jaccard similarity estimation for set comparison
-- **Weighted MinHash**: Weighted Jaccard for TF-IDF and frequency-based similarity
-- **MinHash LSH**: Fast similarity search with sub-linear query time
-- **LSH Forest**: Top-K nearest neighbor queries without fixed thresholds
-- **LSH Ensemble**: Optimized containment queries for subset/superset search
-- **HNSW**: Approximate nearest neighbor search with logarithmic complexity
+**Similarity Sketches (with monoid support for aggregation):**
+- **MinHash**: Jaccard similarity estimation (supports `+` and `sum()`)
+- **Weighted MinHash**: Weighted Jaccard for TF-IDF (supports `+` and `sum()`)
 
-Previous features (0.5.0):
+**Fast Query Indexes (build after aggregating sketches):**
+- **MinHash LSH**: Sub-linear similarity search (O(n^ρ) query time)
+- **LSH Forest**: Top-K nearest neighbors without thresholds
+- **LSH Ensemble**: Containment queries for subset/superset search
+- **HNSW**: Approximate nearest neighbor (O(log n) query time)
+
+**Previous features (0.5.0):**
 - **T-Digest**: High-accuracy quantile estimation (p50, p95, p99, p999)
 - **CountMinSketch**: Conservative frequency estimation
 - **TopK**: Track top-K most frequent items
 - **HyperLogLog**: Cardinality estimation with ~2% error
 - **Bloom Filter**: Membership testing with configurable false positives
 
-All structures implement **monoid interfaces** for distributed aggregation!
+**All sketch structures** (MinHash, HLL, Bloom, CMS, TopK, T-Digest) implement **monoid interfaces** for distributed aggregation via `+` and `sum()`!
 
 ## Features
 
