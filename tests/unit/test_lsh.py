@@ -482,3 +482,229 @@ class TestConvenienceFunctions:
 
         with pytest.raises(ValueError, match="empty"):
             build_lsh_forest({})
+
+
+class TestMinHashLSHMonoid:
+    """Tests for MinHashLSH monoid properties."""
+
+    def test_combine(self):
+        """Test combining two LSH indexes."""
+        lsh1 = MinHashLSH(threshold=0.5, num_perm=128)
+        lsh2 = MinHashLSH(threshold=0.5, num_perm=128)
+
+        # Insert different items into each
+        mh1 = create_minhash(["a", "b"], num_perm=128)
+        mh2 = create_minhash(["c", "d"], num_perm=128)
+
+        lsh1.insert("doc1", mh1)
+        lsh2.insert("doc2", mh2)
+
+        # Combine
+        merged = lsh1.combine(lsh2)
+
+        assert len(merged) == 2
+        assert "doc1" in merged
+        assert "doc2" in merged
+
+    def test_combine_with_overlapping_keys(self):
+        """Test combining indexes with same keys (later overwrites)."""
+        lsh1 = MinHashLSH(threshold=0.5, num_perm=128)
+        lsh2 = MinHashLSH(threshold=0.5, num_perm=128)
+
+        # Insert same key with different MinHash
+        mh1 = create_minhash(["a", "b"], num_perm=128)
+        mh2 = create_minhash(["c", "d"], num_perm=128)
+
+        lsh1.insert("doc1", mh1)
+        lsh2.insert("doc1", mh2)
+
+        # Combine - lsh2's version should win
+        merged = lsh1.combine(lsh2)
+
+        assert len(merged) == 1
+        assert "doc1" in merged
+        # Check that it's the second MinHash
+        assert merged.minhashes["doc1"] == mh2
+
+    def test_combine_invalid_threshold(self):
+        """Test error on combining indexes with different thresholds."""
+        lsh1 = MinHashLSH(threshold=0.5, num_perm=128)
+        lsh2 = MinHashLSH(threshold=0.7, num_perm=128)
+
+        with pytest.raises(ValueError, match="different thresholds"):
+            lsh1.combine(lsh2)
+
+    def test_combine_invalid_num_perm(self):
+        """Test error on combining indexes with different num_perm."""
+        lsh1 = MinHashLSH(threshold=0.5, num_perm=128)
+        lsh2 = MinHashLSH(threshold=0.5, num_perm=64)
+
+        with pytest.raises(ValueError, match="different num_perm"):
+            lsh1.combine(lsh2)
+
+    def test_combine_invalid_params(self):
+        """Test error on combining indexes with different (b, r)."""
+        lsh1 = MinHashLSH(threshold=0.5, num_perm=128, params=(16, 8))
+        lsh2 = MinHashLSH(threshold=0.5, num_perm=128, params=(8, 16))
+
+        with pytest.raises(ValueError, match="different \\(b, r\\) parameters"):
+            lsh1.combine(lsh2)
+
+    def test_add_operator(self):
+        """Test + operator for combining."""
+        lsh1 = MinHashLSH(threshold=0.5, num_perm=128)
+        lsh2 = MinHashLSH(threshold=0.5, num_perm=128)
+
+        mh1 = create_minhash(["a", "b"], num_perm=128)
+        mh2 = create_minhash(["c", "d"], num_perm=128)
+
+        lsh1.insert("doc1", mh1)
+        lsh2.insert("doc2", mh2)
+
+        # Use + operator
+        merged = lsh1 + lsh2
+
+        assert isinstance(merged, MinHashLSH)
+        assert len(merged) == 2
+        assert "doc1" in merged
+        assert "doc2" in merged
+
+    def test_sum_builtin(self):
+        """Test sum() builtin support."""
+        indexes = []
+        for i in range(3):
+            lsh = MinHashLSH(threshold=0.5, num_perm=128)
+            mh = create_minhash([f"word{i}"], num_perm=128)
+            lsh.insert(f"doc{i}", mh)
+            indexes.append(lsh)
+
+        # Use sum()
+        merged = sum(indexes)
+
+        assert isinstance(merged, MinHashLSH)
+        assert len(merged) == 3
+        assert "doc0" in merged
+        assert "doc1" in merged
+        assert "doc2" in merged
+
+    def test_zero_property(self):
+        """Test monoid zero property."""
+        lsh = MinHashLSH(threshold=0.7, num_perm=128)
+        mh = create_minhash(["a", "b"], num_perm=128)
+        lsh.insert("doc1", mh)
+
+        zero = lsh.zero
+
+        assert isinstance(zero, MinHashLSH)
+        assert zero.threshold == lsh.threshold
+        assert zero.num_perm == lsh.num_perm
+        assert zero.b == lsh.b
+        assert zero.r == lsh.r
+        assert zero.is_zero()
+
+    def test_identity_property(self):
+        """Test monoid identity: lsh + zero = lsh."""
+        lsh = MinHashLSH(threshold=0.5, num_perm=128)
+        mh = create_minhash(["a", "b", "c"], num_perm=128)
+        lsh.insert("doc1", mh)
+
+        zero = lsh.zero
+        result = lsh + zero
+
+        # Should be equal (same items)
+        assert len(result) == len(lsh)
+        assert result.keys == lsh.keys
+
+    def test_associativity(self):
+        """Test monoid associativity: (a + b) + c = a + (b + c)."""
+        lsh1 = MinHashLSH(threshold=0.5, num_perm=128)
+        lsh2 = MinHashLSH(threshold=0.5, num_perm=128)
+        lsh3 = MinHashLSH(threshold=0.5, num_perm=128)
+
+        mh1 = create_minhash(["a", "b"], num_perm=128)
+        mh2 = create_minhash(["c", "d"], num_perm=128)
+        mh3 = create_minhash(["e", "f"], num_perm=128)
+
+        lsh1.insert("doc1", mh1)
+        lsh2.insert("doc2", mh2)
+        lsh3.insert("doc3", mh3)
+
+        # (lsh1 + lsh2) + lsh3
+        result1 = (lsh1 + lsh2) + lsh3
+
+        # lsh1 + (lsh2 + lsh3)
+        result2 = lsh1 + (lsh2 + lsh3)
+
+        # Should have same keys
+        assert result1.keys == result2.keys
+        assert len(result1) == 3
+        assert len(result2) == 3
+
+    def test_is_zero(self):
+        """Test is_zero method."""
+        lsh = MinHashLSH(threshold=0.5, num_perm=128)
+        assert lsh.is_zero()
+
+        mh = create_minhash(["a"], num_perm=128)
+        lsh.insert("doc1", mh)
+
+        assert not lsh.is_zero()
+
+    def test_equality(self):
+        """Test LSH equality."""
+        lsh1 = MinHashLSH(threshold=0.5, num_perm=128)
+        lsh2 = MinHashLSH(threshold=0.5, num_perm=128)
+
+        mh = create_minhash(["a", "b", "c"], num_perm=128)
+
+        lsh1.insert("doc1", mh)
+        lsh2.insert("doc1", mh)
+
+        assert lsh1 == lsh2
+
+    def test_inequality_different_items(self):
+        """Test inequality with different items."""
+        lsh1 = MinHashLSH(threshold=0.5, num_perm=128)
+        lsh2 = MinHashLSH(threshold=0.5, num_perm=128)
+
+        mh1 = create_minhash(["a", "b"], num_perm=128)
+        mh2 = create_minhash(["c", "d"], num_perm=128)
+
+        lsh1.insert("doc1", mh1)
+        lsh2.insert("doc2", mh2)
+
+        assert lsh1 != lsh2
+
+    def test_inequality_different_params(self):
+        """Test inequality with different parameters."""
+        lsh1 = MinHashLSH(threshold=0.5, num_perm=128)
+        lsh2 = MinHashLSH(threshold=0.7, num_perm=128)
+
+        assert lsh1 != lsh2
+
+    def test_distributed_construction(self):
+        """Test distributed LSH construction pattern."""
+        # Simulate 3 servers building LSH indexes
+        server_indexes = []
+
+        for server_id in range(3):
+            lsh = MinHashLSH(threshold=0.6, num_perm=128)
+
+            # Each server processes different documents
+            for doc_id in range(10):
+                words = [f"server{server_id}_word{doc_id}"]
+                mh = create_minhash(words, num_perm=128)
+                lsh.insert(f"server{server_id}_doc{doc_id}", mh)
+
+            server_indexes.append(lsh)
+
+        # Merge all server indexes
+        global_lsh = sum(server_indexes)
+
+        # Should contain all documents
+        assert len(global_lsh) == 30
+
+        # Can query the merged index
+        query = create_minhash(["server1_word5"], num_perm=128)
+        results = global_lsh.query(query)
+        assert isinstance(results, list)

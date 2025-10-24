@@ -235,6 +235,124 @@ class MinHashLSH:
 
         return True
 
+    def combine(self, other: 'MinHashLSH') -> 'MinHashLSH':
+        """Combine two MinHashLSH indexes (monoid operation).
+
+        Merges hash tables and MinHash storage from two indexes.
+        This is the monoid operation for distributed LSH construction.
+
+        Args:
+            other: Another MinHashLSH with matching parameters
+
+        Returns:
+            New MinHashLSH containing all items from both indexes
+
+        Raises:
+            ValueError: If parameters don't match
+
+        Examples:
+            >>> lsh1 = MinHashLSH(threshold=0.7, num_perm=128)
+            >>> lsh2 = MinHashLSH(threshold=0.7, num_perm=128)
+            >>> # ... insert items into each ...
+            >>> merged = lsh1.combine(lsh2)
+            >>> # Or use + operator
+            >>> merged = lsh1 + lsh2
+        """
+        # Validate compatibility
+        if self.threshold != other.threshold:
+            raise ValueError(
+                f"Cannot combine LSH indexes with different thresholds: "
+                f"{self.threshold} vs {other.threshold}"
+            )
+        if self.num_perm != other.num_perm:
+            raise ValueError(
+                f"Cannot combine LSH indexes with different num_perm: "
+                f"{self.num_perm} vs {other.num_perm}"
+            )
+        if self.b != other.b or self.r != other.r:
+            raise ValueError(
+                f"Cannot combine LSH indexes with different (b, r) parameters: "
+                f"({self.b}, {self.r}) vs ({other.b}, {other.r})"
+            )
+
+        # Create result with same parameters
+        result = MinHashLSH(
+            threshold=self.threshold,
+            num_perm=self.num_perm,
+            params=(self.b, self.r)
+        )
+
+        # Merge hash tables bucket by bucket
+        for i in range(self.b):
+            # Merge buckets from self
+            for band_hash, keys in self.hashtables[i].items():
+                result.hashtables[i][band_hash].extend(keys)
+
+            # Merge buckets from other
+            for band_hash, keys in other.hashtables[i].items():
+                result.hashtables[i][band_hash].extend(keys)
+
+        # Merge MinHash storage (later updates overwrite earlier)
+        result.minhashes.update(self.minhashes)
+        result.minhashes.update(other.minhashes)
+
+        # Union key sets
+        result.keys = self.keys | other.keys
+
+        return result
+
+    def __add__(self, other: 'MinHashLSH') -> 'MinHashLSH':
+        """Combine using + operator (monoid operation).
+
+        Examples:
+            >>> merged = lsh1 + lsh2
+            >>> combined = lsh1 + lsh2 + lsh3
+        """
+        return self.combine(other)
+
+    def __radd__(self, other):
+        """Support sum() builtin.
+
+        Examples:
+            >>> indexes = [lsh1, lsh2, lsh3]
+            >>> merged = sum(indexes)
+        """
+        if other == 0:
+            return self
+        return self.__add__(other)
+
+    @property
+    def zero(self) -> 'MinHashLSH':
+        """Monoid identity: empty LSH index with same parameters.
+
+        Returns:
+            Empty MinHashLSH with matching threshold, num_perm, and (b, r)
+
+        Examples:
+            >>> lsh = MinHashLSH(threshold=0.7, num_perm=128)
+            >>> empty = lsh.zero
+            >>> assert lsh + empty == lsh  # Identity property
+        """
+        return MinHashLSH(
+            threshold=self.threshold,
+            num_perm=self.num_perm,
+            params=(self.b, self.r)
+        )
+
+    def is_zero(self) -> bool:
+        """Check if this is the zero element (empty index).
+
+        Returns:
+            True if index contains no items
+
+        Examples:
+            >>> lsh = MinHashLSH(threshold=0.7, num_perm=128)
+            >>> assert lsh.is_zero()
+            >>> lsh.insert('key', minhash)
+            >>> assert not lsh.is_zero()
+        """
+        return len(self.keys) == 0
+
     def __contains__(self, key: Hashable) -> bool:
         """Check if key is in index."""
         return key in self.keys
@@ -242,6 +360,39 @@ class MinHashLSH:
     def __len__(self) -> int:
         """Return number of items in index."""
         return len(self.keys)
+
+    def __eq__(self, other: Any) -> bool:
+        """Check equality based on parameters and contents.
+
+        Two LSH indexes are equal if they have the same parameters
+        and contain the same keys with the same MinHash signatures.
+
+        Args:
+            other: Another object to compare with
+
+        Returns:
+            True if indexes are equal
+        """
+        if not isinstance(other, MinHashLSH):
+            return False
+
+        # Check parameters
+        if (self.threshold != other.threshold or
+            self.num_perm != other.num_perm or
+            self.b != other.b or
+            self.r != other.r):
+            return False
+
+        # Check keys
+        if self.keys != other.keys:
+            return False
+
+        # Check MinHash signatures for all keys
+        for key in self.keys:
+            if self.minhashes[key] != other.minhashes[key]:
+                return False
+
+        return True
 
     def __repr__(self) -> str:
         """String representation."""

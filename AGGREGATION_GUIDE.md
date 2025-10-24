@@ -11,10 +11,42 @@
 | **CountMinSketch** | ✅ **YES** | `cms1 + cms2` | Frequency aggregation |
 | **TopK** | ✅ **YES** | `tk1 + tk2` | Merge top items |
 | **T-Digest** | ✅ **YES** | `td1 + td2` | Merge distributions |
-| **MinHash LSH** | ❌ **NO** | - | Index structure |
+| **MinHash LSH** | ✅ **YES** 🆕 | `lsh1 + lsh2` | Merge indexes |
 | **LSH Forest** | ❌ **NO** | - | Index structure |
 | **LSH Ensemble** | ❌ **NO** | - | Index structure |
 | **HNSW** | ❌ **NO** | - | Graph structure |
+
+---
+
+## 🆕 NEW: MinHashLSH Now Supports Monoid Operations!
+
+**MinHashLSH** can now be aggregated using `+` and `sum()` operations. This enables:
+- Distributed LSH construction across multiple servers
+- Merging independently-built indexes
+- Incremental index updates
+
+**Example:**
+```python
+# Build LSH indexes on different servers
+lsh1 = MinHashLSH(threshold=0.7, num_perm=128)
+lsh2 = MinHashLSH(threshold=0.7, num_perm=128)
+# ... insert data ...
+
+# Merge using monoid operations
+merged = lsh1 + lsh2
+# Or: combined = sum([lsh1, lsh2, lsh3])
+```
+
+**When to use:**
+- ✅ Merging pre-built indexes from different sources
+- ✅ Distributed LSH construction
+- ✅ Incremental batch updates
+
+**When NOT to use:**
+- ❌ If you have the original MinHash sketches (aggregate those instead, then build LSH once)
+- ❌ If parameters don't match (threshold, num_perm, b, r must be identical)
+
+See `examples/minhash_lsh_monoid_examples.py` for detailed usage examples.
 
 ---
 
